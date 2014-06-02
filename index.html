@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html ng-app="Meetings" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Meetings app</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body class="ng-cloak">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#">Meetings</a>
+        </div>
+    </div>
+</div>
+<div class="container" ng-controller="MainCtrl">
+    <div class="row">
+        <div class="span12">
+            <h2>Generate meetings</h2>
+            <p>Generate random meetings by selecting a topic and the number of entries.
+                <br/>
+                If topic is empty, random topics will be automatically chosen by the system.</p>
+            <form method="post" action="#" class="form-inline">
+                <input ng-model="formData.topic" ng-model="formData.topic" type="text" id="topic" placeholder="Topic (optional)" />
+                <select ng-model="formData.entries" class="input-medium">
+                    <option value="1000">1000 Entries</option>
+                    <option value="5000">5000 Entries</option>
+                    <option value="10000">10000 Entries</option>
+                </select>
+                <button ng-disabled="blockUI" ng-click="generateMeetings();" type="button" class="btn btn-success">Push it, push it real good!</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <h2>Upcoming Meetings</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>Topic</th>
+                    <th style="width: 60%">People</th>
+                    <th>Date</th>
+                </tr>
+                <tr ng-repeat="(k, meeting) in meetings">
+                    <td>{{meeting.topic}}</td>
+                    <td><span class="label tag label-info" ng-repeat="(km, member) in meeting.members">{{member.firstName}} {{member.lastName}}</span></td>
+                    <td>{{meeting.start | date: 'dd.MM.yy HH:ss'}} - {{meeting.end | date: 'dd.MM.yy HH:ss'}}</td>
+                </tr>
+                <tr ng-hide="meetings.length">
+                    <td colspan="100">There are no meetings at this moment.</td>
+                </tr>
+            </table>
+        </div>
+        <div class="span12">
+            <h2>Members</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Next meeting</th>
+                </tr>
+                <tr ng-repeat="(k, member) in members">
+                    <td>{{member.details.firstName}} {{member.details.lastName}}</td>
+                    <td ng-show="{{member.meeting.topic}}">{{member.meeting.topic}} / {{member.meeting.start | date: 'dd.MM.yy HH:ss'}}</td>
+                    <td ng-show="!member.meeting.topic">n/a</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <h2>Statistics</h2>
+        </div>
+        <div class="span6">
+            <span>Total meetings:</span> <strong class="label label-inverse">{{stats.totalMeetings}}</strong>
+        </div>
+        <div class="span6">
+            <span>Avg. members in the next 20 meetings:</span> <strong class="label label-inverse">{{stats.avgMembers}}</strong>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var host = 'http://localhost:3000';
+    window.endPoints = {
+        meetings: host + '/meetings',
+        members: host + '/members',
+        statistics: host + '/statistics'
+    };
+</script>
+<script type="text/javascript" src="assets/lib/chance.min.js"></script>
+<script type="text/javascript" src="assets/lib/angular/angular.min.js"></script>
+<script type="text/javascript" src="assets/js/angular/app.js"></script>
+<script type="text/javascript" src="assets/js/angular/controllers/MainCtrl.js"></script>
+</body>
+</html>
