@@ -1,4 +1,8 @@
 node-mongo-angular
 ==================
 
-Test development
+## Quick install
+
+```
+$ sudo cd server && npm install
+```
