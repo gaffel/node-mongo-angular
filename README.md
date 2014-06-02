@@ -7,5 +7,7 @@ Meetings app with mongo, angular and node.js
 
 ```
 1. $ sudo cd server && npm install
-2. Open index.html file in your browser
+2. sudo mongod
+3. node app.js
+4. Open index.html file in your browser
 ```
