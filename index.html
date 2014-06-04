@@ -68,8 +68,8 @@
                 </tr>
                 <tr ng-repeat="(k, member) in members">
                     <td>{{member.details.firstName}} {{member.details.lastName}}</td>
-                    <td ng-show="{{member.meeting.topic}}">{{member.meeting.topic}} / {{member.meeting.start | date: 'dd.MM.yy HH:ss'}}</td>
-                    <td ng-show="!member.meeting.topic">n/a</td>
+                    <td ng-show="member.meeting.topic">{{member.meeting.topic}} / {{member.meeting.start | date: 'dd.MM.yy HH:ss'}}</td>
+                    <td ng-hide="member.meeting.topic">n/a</td>
                 </tr>
             </table>
         </div>
